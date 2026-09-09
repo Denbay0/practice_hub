@@ -1,0 +1,25 @@
+name: Full archive CI
+on: [push, pull_request]
+jobs:
+  hub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {submodules: recursive}
+      - uses: actions/setup-node@v4
+        with: {node-version: 22, cache: npm}
+      - run: npm ci
+      - run: npm run build
+  django:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: {project: [learning_logs, blog, task_manager]}
+    steps:
+      - uses: actions/checkout@v4
+        with: {submodules: recursive}
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - working-directory: projects/${{ matrix.project }}
+        run: pip install -r requirements.txt
+      - working-directory: projects/${{ matrix.project }}
+        run: python manage.py check && python manage.py test

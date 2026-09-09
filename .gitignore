@@ -1,0 +1,13 @@
+.env
+.env.local
+node_modules/
+dist/
+*.log
+*.tsbuildinfo
+pnpm-lock.yaml
+vite.config.js
+vite.config.d.ts
+.idea/
+.vscode/
+projects/*/.venv/
+projects/*/db.sqlite3

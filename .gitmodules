@@ -1,0 +1,9 @@
+[submodule "projects/learning_logs"]
+	path = projects/learning_logs
+	url = https://github.com/Denbay0/learning_logs.git
+[submodule "projects/blog"]
+	path = projects/blog
+	url = https://github.com/Denbay0/blog.git
+[submodule "projects/task_manager"]
+	path = projects/task_manager
+	url = https://github.com/Denbay0/task_manager.git
