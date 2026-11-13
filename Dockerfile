@@ -3,6 +3,9 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
+ARG VITE_LEARNING_LOGS_URL
+ARG VITE_BLOG_URL
+ARG VITE_TASK_MANAGER_URL
 RUN npm run build
 FROM nginx:1.27-alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf

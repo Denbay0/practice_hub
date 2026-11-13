@@ -1,17 +1,11 @@
 services:
   hub:
-    build: .
-    ports: ["3000:80"]
-    depends_on: [learning_logs, blog, task_manager]
-  learning_logs:
-    build: ./projects/learning_logs
-    environment: ["DJANGO_SECRET_KEY=local-compose-learning", "DJANGO_DEBUG=1", "DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,learning_logs"]
-    ports: ["8001:8000"]
-  blog:
-    build: ./projects/blog
-    environment: ["DJANGO_SECRET_KEY=local-compose-blog", "DJANGO_DEBUG=1", "DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,blog"]
-    ports: ["8002:8000"]
-  task_manager:
-    build: ./projects/task_manager
-    environment: ["DJANGO_SECRET_KEY=local-compose-tasks", "DJANGO_DEBUG=1", "DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,task_manager"]
-    ports: ["8003:8000"]
+    build:
+      context: .
+      args:
+        VITE_LEARNING_LOGS_URL: ${VITE_LEARNING_LOGS_URL:-http://localhost:8001}
+        VITE_BLOG_URL: ${VITE_BLOG_URL:-http://localhost:8002}
+        VITE_TASK_MANAGER_URL: ${VITE_TASK_MANAGER_URL:-http://localhost:8003}
+    ports:
+      - "${HUB_PORT:-3000}:80"
+    restart: unless-stopped

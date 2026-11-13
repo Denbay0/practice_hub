@@ -29,13 +29,19 @@ npm run dev
 npm run build
 ```
 
-## Полный комплект в Docker
+## Три Django-приложения
 
 ```bash
-docker compose up --build
+cd projects/learning_logs && docker compose up -d --build
+cd ../blog && docker compose up -d --build
+cd ../task_manager && docker compose up -d --build
 ```
 
-Порты: Hub `3000`, Learning Logs `8001`, Blog `8002`, Task Manager `8003`.
+Порты по умолчанию: Learning Log `8001`, Blog `8002`, Task Manager `8003`. У каждого приложения свой `.env`, том SQLite и README с инструкциями. Перед запуском скопируйте `.env.example` в `.env` в каждой папке и задайте отдельный случайный `DJANGO_SECRET_KEY`.
+
+## Hub в Docker
+
+Из корня репозитория: `docker compose up -d --build`. Compose здесь запускает только дополнительный React Hub на порту `3000`. Для внешнего доступа задайте в корневом `.env` переменные `VITE_LEARNING_LOGS_URL`, `VITE_BLOG_URL`, `VITE_TASK_MANAGER_URL` с публичными адресами трёх приложений: Vite встраивает их во время сборки. После изменения адресов пересоберите Hub.
 
 ## Архитектура
 
@@ -50,4 +56,4 @@ docker compose up --build
 
 ## CI
 
-GitHub Actions выполняет `npm ci`, `npm run build`, затем `python manage.py check` и `python manage.py test` для каждого Django-проекта. Деплой намеренно не настроен.
+GitHub Actions выполняет `npm ci`, `npm run build`, затем `python manage.py check` и `python manage.py test` для каждого Django-проекта.
